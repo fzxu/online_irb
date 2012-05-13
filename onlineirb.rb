@@ -16,7 +16,7 @@ get '/run' do
   unless defined? CODES
     CODES = ""
   end
-  ret = opt = err = nil
+  ret = err = nil
   
   stdo = StringIO.new
   
@@ -24,7 +24,7 @@ get '/run' do
 
   if code[-1] == '\\'
     CODES += code[0..-2] + "\n "
-    return(json :ret => CODES, :err => __sanit_str__(err), :opt => __sanit_str__(opt))
+    return(json :ret => CODES, :err => __sanit_str__(err), :opt => 'nil')
   else
     CODES += code
   end

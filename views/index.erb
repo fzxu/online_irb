@@ -13,7 +13,9 @@
       function init_console(){
          /* First console */
         var console = $('<div class="console">');
+        
         $('body').append(console);
+        
         var controller1 = console.console({
           promptLabel: 'irb> ',
           commandValidate:function(line){
@@ -48,11 +50,21 @@
           autofocus:true,
           animateScroll:true,
           promptHistory:true
-        });      
+        });
+        
+        resize();
       };
+      
+      function resize(){
+        $('div.console div.jquery-console-inner').height($(window).height()-100);
+        $('div.console div.jquery-console-inner').width($(window).width()-30);              
+      }
       
       $(document).ready(function(){
         init_console();
+        $(window).resize(function() {
+          resize();
+        });
       });
     </script>
     <style type="text/css" media="screen">
@@ -60,7 +72,7 @@
       /* First console */
       div.console { font-size: 14px }
       div.console div.jquery-console-inner
-       { width:95%; height:450px; background:#333; padding:0.5em;
+       { background:#333; padding:0.5em;
          overflow:auto }
       div.console div.jquery-console-prompt-box
        { color:#fff; font-family:monospace; }
