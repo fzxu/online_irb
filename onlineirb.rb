@@ -6,38 +6,35 @@ __binding__ = binding
 
 
 get '/run' do
-  sio = StringIO.new
+  unless defined? CODES
+    CODES = ""
+  end
+  
+  stdo = StringIO.new
   
   code = CGI.unescapeHTML(params[:code])
 
   if code[-1] == '\\'
     CODES += code[0..-2] + "\n "
-    return nil
+    return CODES
   else
-    if defined? CODES
-      CODES += code
-    else
-      CODES = code
-    end
+    CODES += code
   end
   
   begin
-    old_stdout, $stdout = $stdout, sio
-    ret = __binding__.eval(CODES, "IRB", 0)
+    old_stdout, $stdout = $stdout, stdo
+    __binding__.eval(CODES, "IRB", 0)
   rescue Exception => e
-    ret = e.message + "-------------------"
-    ret += e.backtrace.inspect
+    ret = "#{e.message}\n"
+    e.backtrace.each do |l|
+      ret += "#{l}\n"
+    end
+    return ret
   ensure
     CODES.clear
     $stdout = old_stdout # restore stdout
   end
-  
-  if ret
-    ret = ret.inspect + "\n" + sio.string
-  else
-    ret = sio.string
-  end
-  ret
+  return stdo.string
 end
 
 get '/' do

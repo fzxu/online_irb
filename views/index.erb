@@ -12,9 +12,9 @@
     <script type="text/javascript">
       function init_console(){
          /* First console */
-        var console1 = $('<div class="console1">');
-        $('body').append(console1);
-        var controller1 = console1.console({
+        var console = $('<div class="console">');
+        $('body').append(console);
+        var controller1 = console.console({
           promptLabel: 'irb> ',
           commandValidate:function(line){
             if (line == "") return false;
@@ -22,7 +22,7 @@
           },
           commandHandle:function(line, report){
             if(line == "clear"){
-              $('.console1').remove();
+              $('.console').remove();
               init_console();
             }else{
               var params = { code: line };
@@ -45,26 +45,26 @@
       });
     </script>
     <style type="text/css" media="screen">
-      div.console1,div.console2,div.console3 { word-wrap: break-word; }
+      div.console,div.console2,div.console3 { word-wrap: break-word; }
       /* First console */
-      div.console1 { font-size: 14px }
-      div.console1 div.jquery-console-inner
+      div.console { font-size: 14px }
+      div.console div.jquery-console-inner
        { width:95%; height:450px; background:#333; padding:0.5em;
          overflow:auto }
-      div.console1 div.jquery-console-prompt-box
+      div.console div.jquery-console-prompt-box
        { color:#fff; font-family:monospace; }
-      div.console1 div.jquery-console-focus span.jquery-console-cursor
+      div.console div.jquery-console-focus span.jquery-console-cursor
        { background:#fefefe; color:#333; font-weight:bold }
-      div.console1 div.jquery-console-message-error
+      div.console div.jquery-console-message-error
        { color:#ef0505; font-family:sans-serif; font-weight:bold;
          padding:0.1em; }
-      div.console1 div.jquery-console-message-value
+      div.console div.jquery-console-message-value
        { color:#1ad027; font-family:monospace;
          padding:0.1em; }
-      div.console1 div.jquery-console-message-type
+      div.console div.jquery-console-message-type
        { color:#52666f; font-family:monospace;
          padding:0.1em; }
-      div.console1 span.jquery-console-prompt-label { font-weight:bold }
+      div.console span.jquery-console-prompt-label { font-weight:bold }
     </style>
   </head>
   <body>

@@ -15,5 +15,6 @@ You can clear the console by:
 
     irb> clear
   
+You also can use ending \ to continue programming, the whole bunch of code would be executed at the statement without \ ending.
 
 ![screen shot](online_irb/raw/master/screenshot.png "Screen Shot")
