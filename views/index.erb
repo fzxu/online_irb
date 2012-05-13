@@ -28,9 +28,20 @@
               var params = { code: line };
               $.ajax({
                 url: "/run?" + $.param(params)
-              }).done(function(data) { 
-                report([{msg:"=> " + data ,
-                        className:"jquery-console-message-value"}]);
+              }).done(function(data) {
+                message = []
+                if(data.opt != 'nil'){
+                  message.push({msg: data.opt ,
+                          className:"jquery-console-message-value"});
+                }
+                if(data.err != 'nil'){
+                  message.push({msg:"=> " + data.err ,
+                          className:"jquery-console-message-error"});
+                }
+                message.push({msg:"=> " + data.ret ,
+                          className:"jquery-console-message-type"});
+                
+                report(message);                  
               });         
             }
           },
@@ -62,7 +73,7 @@
        { color:#1ad027; font-family:monospace;
          padding:0.1em; }
       div.console div.jquery-console-message-type
-       { color:#52666f; font-family:monospace;
+       { color:#87a7b7; font-family:monospace;
          padding:0.1em; }
       div.console span.jquery-console-prompt-label { font-weight:bold }
     </style>

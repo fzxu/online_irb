@@ -1,14 +1,22 @@
 require 'sinatra'
+require "sinatra/json"
 require 'stringio'
 require 'cgi'
 
 __binding__ = binding
 
+def __sanit_str__(str)
+  if str.nil?
+    return 'nil'
+  end
+  str.to_s
+end
 
 get '/run' do
   unless defined? CODES
     CODES = ""
   end
+  ret = opt = err = nil
   
   stdo = StringIO.new
   
@@ -16,25 +24,24 @@ get '/run' do
 
   if code[-1] == '\\'
     CODES += code[0..-2] + "\n "
-    return CODES
+    return(json :ret => CODES, :err => __sanit_str__(err), :opt => __sanit_str__(opt))
   else
     CODES += code
   end
   
   begin
     old_stdout, $stdout = $stdout, stdo
-    __binding__.eval(CODES, "IRB", 0)
+    ret = __binding__.eval(CODES, "IRB", 0)
   rescue Exception => e
-    ret = "#{e.message}\n"
+    err = "#{e.message}\n"
     e.backtrace.each do |l|
-      ret += "#{l}\n"
+      err += "#{l}\n"
     end
-    return ret
   ensure
     CODES.clear
     $stdout = old_stdout # restore stdout
   end
-  return stdo.string
+  json :ret => __sanit_str__(ret), :err => __sanit_str__(err), :opt => __sanit_str__(stdo.string)
 end
 
 get '/' do
