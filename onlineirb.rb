@@ -10,7 +10,6 @@ get '/run' do
   
   code = CGI.unescapeHTML(params[:code])
 
-  old_stdout, $stdout = $stdout, sio
   if code[-1] == '\\'
     CODES += code[0..-2] + "\n "
     return nil
@@ -23,15 +22,16 @@ get '/run' do
   end
   
   begin
+    old_stdout, $stdout = $stdout, sio
     ret = __binding__.eval(CODES, "IRB", 0)
   rescue Exception => e
     ret = e.message
     ret += e.backtrace.inspect
   ensure
     CODES.clear
+    $stdout = old_stdout # restore stdout
   end
   
-  $stdout = old_stdout # restore stdout
   if ret
     ret = ret.inspect + "\n" + sio.string
   else
