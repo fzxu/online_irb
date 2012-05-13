@@ -1,37 +1,48 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-          "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
 <html>
   <head>
-    <title>Online irb</title>
-    <meta name="Content-Type" content="text/html; charset=UTF-8">
+    <title>
+      Online irb
+    </title>
+    <meta name="Content-Type" content="text/html; charset=UTF-8"/>
     <script type="text/javascript" src="/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="/jquery.console.js"></script>
-    <!-- Everything beyond this point is user-customized -->
+
     <script type="text/javascript">
-      $(document).ready(function(){
+      function init_console(){
          /* First console */
-         var console1 = $('<div class="console1">');
-         $('body').append(console1);
-         var controller1 = console1.console({
-           promptLabel: 'irb> ',
-           commandValidate:function(line){
-             if (line == "") return false;
-             else return true;
-           },
-           commandHandle:function(line, report){
-				var params = { code: line };
-				$.ajax({
-				  url: "/run?" + $.param(params)
-				}).done(function(data) { 
-					report([{msg:"=> " + data ,
-	                        className:"jquery-console-message-value"}]);
-				});
-           },
-           autofocus:true,
-           animateScroll:true,
-           promptHistory:true
-         });
-       });
+        var console1 = $('<div class="console1">');
+        $('body').append(console1);
+        var controller1 = console1.console({
+          promptLabel: 'irb> ',
+          commandValidate:function(line){
+            if (line == "") return false;
+            else return true;
+          },
+          commandHandle:function(line, report){
+            if(line == "clear"){
+              $('.console1').remove();
+              init_console();
+            }else{
+              var params = { code: line };
+              $.ajax({
+                url: "/run?" + $.param(params)
+              }).done(function(data) { 
+                report([{msg:"=> " + data ,
+                        className:"jquery-console-message-value"}]);
+              });         
+            }
+          },
+          autofocus:true,
+          animateScroll:true,
+          promptHistory:true
+        });      
+      };
+      
+      $(document).ready(function(){
+        init_console();
+      });
     </script>
     <style type="text/css" media="screen">
       div.console1,div.console2,div.console3 { word-wrap: break-word; }
@@ -58,10 +69,11 @@
   </head>
   <body>
     <noscript>
-      <p>
-        <strong>Please enable JavaScript or upgrade your browser.</strong>
-      </p>
-    </noscript>
-    <h1>Try out your Ruby code here!</h1>
+    <p>
+      <strong>Please enable JavaScript or upgrade your browser.</strong>
+    </p></noscript>
+    <h1>
+      Try out your Ruby code here!
+    </h1>
   </body>
 </html>
