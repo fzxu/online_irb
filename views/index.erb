@@ -37,7 +37,7 @@
                           className:"jquery-console-message-value"});
                 }
                 if(data.err != 'nil'){
-                  message.push({msg:"=> " + data.err ,
+                  message.push({msg: data.err ,
                           className:"jquery-console-message-error"});
                 }
                 message.push({msg:"=> " + data.ret ,
@@ -56,7 +56,7 @@
       };
       
       function resize(){
-        $('div.console div.jquery-console-inner').height($(window).height()-100);
+        $('div.console div.jquery-console-inner').height($(window).height()-90);
         $('div.console div.jquery-console-inner').width($(window).width()-30);              
       }
       
@@ -70,7 +70,7 @@
     <style type="text/css" media="screen">
       div.console,div.console2,div.console3 { word-wrap: break-word; }
       /* First console */
-      div.console { font-size: 14px }
+      div.console { font-size: 14px; min-width:500px;}
       div.console div.jquery-console-inner
        { background:#333; padding:0.5em;
          overflow:auto }
@@ -90,13 +90,13 @@
       div.console span.jquery-console-prompt-label { font-weight:bold }
     </style>
   </head>
-  <body>
+  <body style="overflow: hidden">
     <noscript>
     <p>
       <strong>Please enable JavaScript or upgrade your browser.</strong>
     </p></noscript>
-    <h1>
+    <h2>
       Try out your Ruby code here!
-    </h1>
+    </h2>
   </body>
 </html>
