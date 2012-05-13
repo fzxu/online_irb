@@ -11,4 +11,4 @@ How to use
 	
 Then you would be able to access localhost:4567 from your browser.
 
-![screen shot](./screenshot.png "Screen Shot")
+![screen shot](online_irb/raw/master/screenshot.png "Screen Shot")
