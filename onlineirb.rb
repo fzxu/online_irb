@@ -25,7 +25,7 @@ get '/run' do
     old_stdout, $stdout = $stdout, sio
     ret = __binding__.eval(CODES, "IRB", 0)
   rescue Exception => e
-    ret = e.message
+    ret = e.message + "-------------------"
     ret += e.backtrace.inspect
   ensure
     CODES.clear
