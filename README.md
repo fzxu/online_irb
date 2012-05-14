@@ -3,6 +3,11 @@ Browser based IRB
 
 A very simple Ruby Interpreter Online, based on Sinatra
 
+
+[Online demo](http://onlineirb.cloudfoundry.com/)
+-------------
+
+
 How to use
 ----------
     bundle install
